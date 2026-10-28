@@ -11,9 +11,15 @@ def get_input_string(message):
 def get_input_int(message):
     return int(get_input_string(message))
 
-def determine_winner(player, computer, name):
+def determine_winner(player, computer, name, weapon):
     if player == computer:
         result = "Draw"
+    elif len(weapon) == 4:
+        winning_rule = {0:[1,2], 1:[2,3], 2:[3], 3:[0]}
+        if computer in winning_rule[player]:
+            result = f"{name} wins"
+        else:
+            result = "Computer Wins"
     elif (player + 1)%3 == computer:
         result = f"{name} wins"
     elif (computer + 1)%3 == player:
@@ -29,12 +35,12 @@ def get_user_choice_request(weapons):
 def get_user_choice(weapons):
     request = get_user_choice_request(weapons)
     player = get_input_int(request)
-    if player in [0, 1, 2]:
+    if player in range(0, len(weapons)):
         display("You selected " + weapons[player])
     return player
 
 def get_computer_choice(weapons):
-    chosen = random.randint(0,2)
+    chosen = random.randint(0,len(weapons)-1)
     display("Computer chose " + weapons[chosen])
     return chosen
 
@@ -73,10 +79,10 @@ def play():
     name = get_input_string("Enter your name: ")
     weapon = get_game()
     player = get_user_choice(weapon)
-    while player in [0, 1, 2]:
+    while player in range(0, len(weapon)):
         
         computer = get_computer_choice(weapon)
-        result = determine_winner(player, computer, name)
+        result = determine_winner(player, computer, name, weapon)
         display(result)
         player = get_user_choice(weapon)
 
