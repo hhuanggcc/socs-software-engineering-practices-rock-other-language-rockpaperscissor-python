@@ -11,11 +11,11 @@ def get_input_string(message):
 def get_input_int(message):
     return int(get_input_string(message))
 
-def determine_winner(player, computer):
+def determine_winner(player, computer, name):
     if player == computer:
         result = "Draw"
     elif (player + 1)%3 == computer:
-        result = "Player wins"
+        result = f"{name} wins"
     elif (computer + 1)%3 == player:
         result = "Computer Wins"
     return result
@@ -70,11 +70,13 @@ def get_game():
     return weapons_lists[user_game]
 
 def play():
+    name = get_input_string("Enter your name: ")
     weapon = get_game()
     player = get_user_choice(weapon)
     while player in [0, 1, 2]:
+        
         computer = get_computer_choice(weapon)
-        result = determine_winner(player, computer)
+        result = determine_winner(player, computer, name)
         display(result)
         player = get_user_choice(weapon)
 
